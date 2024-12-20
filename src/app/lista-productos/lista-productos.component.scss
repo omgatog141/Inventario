@@ -1,0 +1,136 @@
+ion-content {
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+/* Efecto hover para cada item de la lista */
+ion-item:hover {
+  background-color: white; /* Color de fondo claro cuando el cursor pasa por encima */
+  box-shadow: 0 4px 6px black; /* Agregar una sombra suave */
+  transform: scale(1.03); /* Zoom suave del 3% */
+  transition: background-color 0.3s, box-shadow 0.3s; /* Transición suave */
+}
+
+/* Opcional: Cambiar el color del texto o íconos al pasar el mouse */
+ion-item:hover ion-label h2,
+ion-item:hover ion-label p {
+  color: gray; /* Cambiar color de texto */
+}
+
+
+// Contenedor de filtrado
+.filtro-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: black;
+  border-bottom: 1px solid #ccc;
+}
+
+// Espaciado entre el dropdown y el botón
+.filtrar-boton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%; /* Hace el botón redondo */
+  background-color: green;
+  color: white;
+  font-size: 18px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+  transition: transform 0.2s, box-shadow 0.2s; /* Transiciones para la animación */
+  cursor: pointer;
+}
+
+/* Efecto al hacer hover */
+.filtrar-boton:hover {
+  background-color: gray;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Efecto al presionar */
+.filtrar-boton:active {
+  transform: scale(0.95); /* Reduce ligeramente el tamaño */
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Asegurarse de que el icono se centre */
+.filtrar-boton ion-icon {
+  font-size: 24px; /* Tamaño del icono */
+}
+
+// Ajuste de la lista de productos
+ion-list {
+  margin-top: 10px;
+}
+
+// Estilo para imágenes en los productos
+ion-avatar img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+
+.filtrar-boton.moderno {
+  margin-left: 10px;
+}
+
+/* Estilo para la barra de búsqueda */
+.searchbar-custom {
+  width: 100%; /* Asegura que la barra ocupe todo el ancho */
+  --border-radius: 20px; /* Bordes redondeados */
+  --background: black; 
+  --box-shadow: none; /* Elimina la sombra por defecto */
+}
+
+::ng-deep .searchbar-input {
+  color: gray; /* Ajusta la opacidad del texto en la barra de búsqueda */
+}
+
+/* Estilo personalizado para el botón de exportar */
+ion-button.exportar-json {
+  --background: #28a745; /* Color de fondo verde */
+  --border-radius: 20px; /* Bordes redondeados */
+  --color: white; /* Color de texto blanco */
+  --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 10px 20px; /* Un poco de padding */
+}
+
+ion-button.exportar-json:hover {
+  --background: #218838; /* Color más oscuro al pasar el mouse */
+}
+
+/* Estilo para el botón de eliminar */
+.eliminar-boton {
+position: absolute;
+top: 10px;
+right: 10px;
+background-color: red;  /* Color de fondo rojo */
+color: white;           /* Color del icono */
+border-radius: 50%;     /* Hacer el botón redondo */
+width: 30px;
+height: 30px;
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Efecto hover */
+.eliminar-boton:hover {
+background-color: darkred; /* Color más oscuro al pasar el mouse */
+transform: scale(1.1);     /* Aumentar el tamaño ligeramente */
+}
+
+/* Efecto al presionar */
+.eliminar-boton:active {
+transform: scale(0.95);  /* Reducir el tamaño al presionar */
+box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,39 @@
+.search-container {
+    padding: 10px;
+    width: 100%; /* Asegura que el contenedor ocupe todo el ancho */
+  }
+  
+  .full-width-search {
+    width: 100%; /* Hace que el searchbar ocupe todo el ancho disponible */
+    --border-radius: 20px; /* Bordes redondeados */
+    --background: black; /* Fondo claro para la barra de búsqueda */
+    --box-shadow: none; /* Elimina la sombra */
+  }
+
+  ::ng-deep .searchbar-input {
+    color: gray; /* Letras grises */
+  }
+    
+  /* Efecto hover para cada item de la lista */
+ion-item:hover {
+    background-color: white; /* Color de fondo cuando el cursor pasa por encima */
+    box-shadow: 0 4px 6px black; /* Agregar una sombra suave */
+    transform: scale(1.03); /* Zoom suave del 3% */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Transición suave */
+  }
+  
+  /* Opcional: Cambiar el color del texto o íconos al pasar el mouse */
+  ion-item:hover ion-label h2,
+  ion-item:hover ion-label p {
+    color: gray; /* Cambiar color de texto a verde */
+  }
+  
+  /* Efecto hover para el botón de "X" */
+ion-button:hover {
+    background-color: #f1f1f1; /* Color de fondo cuando el cursor pasa por encima */
+    transform: scale(1.1); /* Zoom suave del 10% */
+    transition: background-color 0.3s, transform 0.3s; /* Transición suave */
+  }
+  
+
+  

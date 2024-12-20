@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Lista de Productos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <!-- Campo de búsqueda con ion-searchbar -->
+    <ion-searchbar
+      [(ngModel)]="searchQuery"
+      placeholder="Buscar productos"
+      showClearButton="true"
+      debounce="500"
+      (ionInput)="buscar()"
+      class="searchbar-custom">
+    </ion-searchbar>
+  </div>
+
+  <!-- Contenedor para las opciones de filtrado -->
+  <div class="filtro-container">
+    <ion-select placeholder="Selecciona una categoría" [(ngModel)]="categoriaSeleccionada">
+      <ion-select-option *ngFor="let categoria of categorias" [value]="categoria">
+        {{ categoria }}
+      </ion-select-option>
+    </ion-select>
+    <button (click)="filtrar()" class="filtrar-boton">
+      <ion-icon name="filter-outline"></ion-icon>
+    </button>
+  </div>
+
+  <!-- Lista de productos filtrados -->
+  <ion-list *ngIf="productosFiltrados.length > 0; else noResults">
+    <ion-item *ngFor="let producto of productosFiltrados; let i = index" (click)="redirectADetalles(producto.id)">
+      <ion-avatar slot="start">
+        <img [src]="producto.thumbnail" alt="{{ producto.title }}">
+      </ion-avatar>
+      <ion-label>
+        <h2>{{ producto.title }}</h2>
+        <p>{{ producto.description }}</p>
+        <p>Precio: ${{ producto.price }}</p>
+        <p>Categoría: {{ producto.category }}</p>
+        <p>Stock: {{ producto.stock }}</p>
+      </ion-label>
+
+      <!-- Botón de eliminar -->
+      <ion-button 
+        color="danger" 
+        (click)="eliminarProducto($event, producto.id, i)" 
+        fill="clear" 
+        class="eliminar-boton">
+        <ion-icon name="close-outline"></ion-icon> <!-- Icono de la "X" -->
+      </ion-button>
+    </ion-item>
+  </ion-list>
+
+  <ion-footer>
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button class="exportar-json" (click)="exportarProductos()">Exportar a JSON</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+
+  <!-- Mensaje para resultados vacíos -->
+  <ng-template #noResults>
+    <p>No se encontraron productos para la categoría seleccionada.</p>
+  </ng-template>
+</ion-content>

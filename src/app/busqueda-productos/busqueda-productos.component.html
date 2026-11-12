@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Buscar Productos</ion-title>
-    <!-- Botón para cerrar -->
     <ion-buttons slot="end">
       <ion-button (click)="regresarLista()">
         <ion-icon name="close-outline"></ion-icon>
@@ -11,20 +10,17 @@
 </ion-header>
 
 <ion-content>
-  <!-- Campo de búsqueda con ion-searchbar -->
   <div class="search-container">
-    <!-- Input vinculado al modelo de búsqueda -->
-    <ion-searchbar 
-      [(ngModel)]="tag" 
-      placeholder="Buscar por tag" 
-      showClearButton="true" 
-      debounce="500" 
+    <ion-searchbar
+      [(ngModel)]="tag"
+      placeholder="Buscar por tag"
+      showClearButton="true"
+      debounce="500"
       class="full-width-search"
       (ionInput)="buscar()">
     </ion-searchbar>
   </div>
 
-  <!-- Lista de productos encontrados -->
   <div *ngIf="productos.length > 0; else noResultados">
     <ion-list>
       <ion-item *ngFor="let producto of productos" (click)="redirectADetalles(producto.id)">
@@ -32,14 +28,13 @@
           <img *ngIf="producto.thumbnail" [src]="producto.thumbnail" alt="{{ producto.title }}">
         </ion-avatar>
         <ion-label>
-          <h2>{{ producto.title }}</h2> <!-- Nombre del producto -->
-          <p>{{ producto.description }}</p> <!-- Descripción del producto -->
+          <h2>{{ producto.title }}</h2>
+          <p>{{ producto.description }}</p>
         </ion-label>
       </ion-item>
     </ion-list>
   </div>
 
-  <!-- Mensaje para resultados vacíos -->
   <ng-template #noResultados>
     <ion-card>
       <ion-card-header>

@@ -1,33 +1,32 @@
 import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router'; // Funcionalidades para gestionar rutas y precargar módulos
-import { BusquedaProductosComponent } from './busqueda-productos/busqueda-productos.component'; // Componente para la búsqueda de productos
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { BusquedaProductosComponent } from './busqueda-productos/busqueda-productos.component';
 
-// Definición de rutas de la aplicación
 const routes: Routes = [
-    { 
-      path: '', // Ruta raíz
+    {
+      path: '',
       loadComponent: () =>
         import('./lista-productos/lista-productos.component').then(
-          (m) => m.ListaProductosComponent // Carga diferida del componente ListaProductosComponent
+          (m) => m.ListaProductosComponent
         ),
     },
     {
-      path: 'busqueda', // Ruta para la búsqueda de productos
-      component: BusquedaProductosComponent // Componente cargado directamente
+      path: 'busqueda',
+      component: BusquedaProductosComponent
     },
     {
-      path: 'producto/:id', // Ruta con parámetro dinámico para detalles de productos
-      loadComponent: () => 
+      path: 'producto/:id',
+      loadComponent: () =>
         import('./producto/producto.component').then(
-          (m) => m.ProductoComponent // Carga diferida del componente ProductoComponent
+          (m) => m.ProductoComponent
         ),
     },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }) // Configuración de rutas y estrategia de precarga
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
   ],
-  exports: [RouterModule] // Exporta el módulo de enrutamiento para su uso en otros módulos
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

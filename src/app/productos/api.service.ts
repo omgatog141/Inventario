@@ -1,71 +1,66 @@
 import { Injectable } from '@angular/core';
-import { Producto } from '../producto.model'; // Importamos el modelo del producto
+import { Producto } from '../producto.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://dummyjson.com/products'; // URL base de la API
+  private apiUrl = 'https://dummyjson.com/products';
 
   constructor() {}
 
-  // Obtener todos los productos
   getProductos(): Promise<Producto[]> {
-    return fetch(`${this.apiUrl}`) // Uso correcto de las comillas para interpolación
+    return fetch(`${this.apiUrl}`)
       .then((response) => {
         if (!response.ok) throw new Error('Error en la respuesta de la API');
         return response.json();
       })
-      .then((data) => data.products) // Devuelve la lista de productos
+      .then((data) => data.products)
       .catch((error) => {
-        console.error('Error al obtener los productos:', error); // Manejo de errores
+        console.error('Error al obtener los productos:', error);
         return [];
       });
   }
 
-  // Obtener un producto por ID
   getProductoById(id: number): Promise<Producto | null> {
-    return fetch(`${this.apiUrl}/${id}`) // Uso correcto de las comillas para interpolación
+    return fetch(`${this.apiUrl}/${id}`)
       .then((response) => {
         if (!response.ok) throw new Error('Error en la respuesta de la API');
         return response.json();
       })
       .then((data) => {
-        // Manejo de imágenes
         data.image = Array.isArray(data.images) && data.images.length > 0 ? data.images[0] : null;
         return data;
       })
       .catch((error) => {
-        console.error('Error al obtener el producto:', error); // Manejo de errores
+        console.error('Error al obtener el producto:', error);
         return null;
       });
   }
 
-  // Buscar productos por tag
   buscarProductosPorTag(tag: string): Promise<Producto[]> {
-    return fetch(`${this.apiUrl}/search?q=${tag}`) // Uso correcto de las comillas para interpolación
+    return fetch(`${this.apiUrl}/search?q=${tag}`)
       .then((response) => {
         if (!response.ok) throw new Error('Error en la respuesta de la API');
         return response.json();
       })
-      .then((data) => data.products || []) // Devuelve los productos encontrados o un array vacío
+      .then((data) => data.products || [])
       .catch((error) => {
-        console.error('Error al buscar productos:', error); // Manejo de errores
+        console.error('Error al buscar productos:', error);
         return [];
       });
   }
 
-  // Eliminar un producto
   eliminarProducto(id: number): Promise<boolean> {
     return fetch(`${this.apiUrl}/${id}`, {
-      method: 'DELETE', // Método DELETE para eliminar
+      method: 'DELETE',
     })
       .then((response) => {
         if (!response.ok) throw new Error('Error al eliminar el producto');
         return true;
       })
       .catch((error) => {
-        console.error('Error al eliminar el producto:', error); // Manejo de errores
+        console.error('Error al eliminar el producto:', error);
         return false;
       });
   }

@@ -14,39 +14,29 @@ import { Producto } from '../producto.model';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProductoComponent implements OnInit {
-  producto: Producto = {
-    id: 0,
-    title: '',
-    description: '',
-    price: 0,
-    category: '',
-    stock: 0,
-    image: '',
-    thumbnail: '',
-    tags: [''],
-  }; // Detalle del producto
+  producto: Producto | null = null;
+  noEncontrado = false;
 
   constructor(
-    private route: ActivatedRoute, // Manejo de parámetros de ruta
-    private apiService: ApiService // Servicio para obtener datos
+    private route: ActivatedRoute,
+    private apiService: ApiService
   ) {}
 
   ngOnInit() {
-    // Obtener el ID del producto de la URL
     const productoId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log('ID del producto: ', productoId);
 
-    // Llamar al servicio para obtener los datos del producto
     this.apiService.getProductoById(productoId).then(
       (data) => {
-        console.log('Producto obtenido: ', data);
         if (data) {
-          this.producto = { ...data }; // Asignar los datos al producto
+          this.producto = { ...data };
         } else {
-          console.error('Producto no encontrado.');
+          this.noEncontrado = true;
         }
       },
-      (error) => console.error('Error al obtener el producto:', error)
+      (error) => {
+        console.error('Error al obtener el producto:', error);
+        this.noEncontrado = true;
+      }
     );
   }
 }

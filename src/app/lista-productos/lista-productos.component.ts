@@ -16,41 +16,38 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./lista-productos.component.scss'],
 })
 export class ListaProductosComponent implements OnInit {
-  productos: Producto[] = []; // Todos los productos
-  productosFiltrados: Producto[] = []; // Productos mostrados
-  categorias: string[] = []; // Lista de categorías
-  categoriaSeleccionada: string = ''; // Categoría seleccionada
-  searchQuery: string = ''; // Texto de búsqueda
+  productos: Producto[] = [];
+  productosFiltrados: Producto[] = [];
+  categorias: string[] = [];
+  categoriaSeleccionada: string = '';
+  searchQuery: string = '';
 
   constructor(
-    private apiService: ApiService, // Servicio para productos
-    private filtradoService: FiltradoServiceService, // Servicio para filtrado
-    private router: Router // Navegación
+    private apiService: ApiService,
+    private filtradoService: FiltradoServiceService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-    // Cargar productos
     this.apiService.getProductos().then(
       (data) => {
         this.productos = data;
-        this.productosFiltrados = data; // Mostrar todos inicialmente
+        this.productosFiltrados = data;
       },
       (error) => console.error('Error al obtener productos:', error)
     );
 
-    // Cargar categorías
     this.filtradoService.obtenerCategorias().then(
       (categorias) => {
-        this.categorias = ['Todos', ...categorias]; // Agregar opción 'Todos'
+        this.categorias = ['Todos', ...categorias];
       },
       (error) => console.error('Error al obtener categorías:', error)
     );
   }
 
-  // Filtrar productos por categoría
   filtrar() {
     if (this.categoriaSeleccionada === 'Todos' || !this.categoriaSeleccionada) {
-      this.productosFiltrados = this.productos; // Mostrar todos si no hay filtro
+      this.productosFiltrados = this.productos;
     } else {
       this.filtradoService.obtenerProductosPorCategoria(this.categoriaSeleccionada).then(
         (productos) => (this.productosFiltrados = productos),
@@ -59,17 +56,16 @@ export class ListaProductosComponent implements OnInit {
     }
   }
 
-  // Buscar productos por texto
   buscar() {
-    this.router.navigate(['/busqueda'], { queryParams: { tag: this.searchQuery } });
+    const texto = (this.searchQuery || '').trim();
+    if (!texto) return;
+    this.router.navigate(['/busqueda'], { queryParams: { tag: texto } });
   }
 
-  // Redirigir a detalles de producto
   redirectADetalles(productoId: number) {
     this.router.navigate(['/producto', productoId]);
   }
 
-  // Exportar productos filtrados como JSON
   exportarProductos() {
     const productosData = JSON.stringify(this.productosFiltrados, null, 2);
     const blob = new Blob([productosData], { type: 'application/json' });
@@ -80,16 +76,18 @@ export class ListaProductosComponent implements OnInit {
     URL.revokeObjectURL(link.href);
   }
 
-  // Eliminamos el producto que escojamos
-  eliminarProducto(event: Event, id: number, index: number): void {
-    event.stopPropagation(); // Evitar que se propague el evento de clic
-  
-    this.apiService.eliminarProducto(id).then(() => {
-      // Eliminar producto de la lista local después de la eliminación en la API
-      this.productosFiltrados.splice(index, 1);
-    }).catch((error) => {
-      console.error('Error al eliminar producto:', error);
+  eliminarProducto(event: Event, id: number): void {
+    event.stopPropagation();
+
+    this.apiService.eliminarProducto(id).then((eliminado) => {
+      if (!eliminado) {
+        console.error('No se pudo eliminar el producto', id);
+        return;
+      }
+      // Quitar de ambas listas para que no reaparezca al cambiar de filtro
+      this.productos = this.productos.filter((p) => p.id !== id);
+      this.productosFiltrados = this.productosFiltrados.filter((p) => p.id !== id);
     });
   }
-  
+
 }
